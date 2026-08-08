@@ -5,6 +5,7 @@ import ProductCard from './components/productCard'
 import AdminPage from './pages/adminPage.jsx'
 import Homepage from './pages/homePage.jsx'
 import TestPage from './pages/test.jsx'
+import LoginPage from './pages/loginPage.jsx'
 
 function App() {
    return (
@@ -12,6 +13,7 @@ function App() {
      <div className="w-full h-screen " >
           <Routes path="/">
             <Route path="/*" element={<Homepage/>} />
+            <Route path="/login" element={<LoginPage/>} />
             <Route path="/register" element={<h1>Register Page</h1>} />
             <Route path="/admin/*" element={<AdminPage />} />
             <Route path="/test" element={<TestPage/>} />     

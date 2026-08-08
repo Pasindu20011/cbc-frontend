@@ -7,7 +7,6 @@ export default function HomePage(){
             <Header/>
             <Routes>
                 <Route path="/" element={<h1>Welcome to the Home Page</h1>} />
-                {/*contact*/}
                 <Route path="/about" element={<h1>About Us</h1>} />
                 <Route path="/contact" element={<h1>Contact Us</h1>} />
                 <Route path="/products" element={<h1>Product List</h1>} />
