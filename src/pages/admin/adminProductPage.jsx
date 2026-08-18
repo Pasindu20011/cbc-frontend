@@ -1,210 +1,227 @@
+
+
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {Link} from 'react-router-dom';
+import { IoTrashOutline } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
+import { SlPlus } from "react-icons/sl";
 
-const sampleData = [
-  {
-    productID: "CBC001",
-    name: "Hydrating Face Moisturizer",
-    altNames: ["Face Moisturizer", "Hydrating Cream", "Moisturizing Cream"],
-    description: "A lightweight moisturizer that helps keep the skin soft, smooth, and hydrated throughout the day.",
-    images: [
-      "/images/products/moisturizer.jpg"
-    ],
-    price: 2500,
-    lablledPrice: 3000,
-    category: "Skincare"
-  },
 
-  {
-    productID: "CBC002",
-    name: "Vitamin C Brightening Serum",
-    altNames: ["Vitamin C Serum", "Brightening Serum", "Face Serum"],
-    description: "A refreshing vitamin C serum designed to support a brighter and more even-looking complexion.",
-    images: [
-      "/images/products/vitamin-c-serum.jpg"
-    ],
-    price: 3200,
-    lablledPrice: 3800,
-    category: "Skincare"
-  },
 
-  {
-    productID: "CBC003",
-    name: "Aloe Vera Facial Cleanser",
-    altNames: ["Aloe Cleanser", "Face Wash", "Facial Wash"],
-    description: "A gentle facial cleanser with aloe vera that removes everyday dirt and impurities while leaving skin feeling fresh.",
-    images: [
-      "/images/products/aloe-cleanser.jpg"
-    ],
-    price: 1800,
-    lablledPrice: 2200,
-    category: "Skincare"
-  },
-
-  {
-    productID: "CBC004",
-    name: "Rose Matte Lipstick",
-    altNames: ["Matte Lipstick", "Rose Lip Color", "Lip Color"],
-    description: "A smooth matte lipstick with rich color and a comfortable finish for everyday looks.",
-    images: [
-      "/images/products/rose-lipstick.jpg"
-    ],
-    price: 1500,
-    lablledPrice: 1800,
-    category: "Makeup"
-  },
-
-  {
-    productID: "CBC005",
-    name: "Waterproof Liquid Eyeliner",
-    altNames: ["Liquid Eyeliner", "Waterproof Liner", "Eye Liner"],
-    description: "A waterproof liquid eyeliner that provides a smooth and precise application for defined eyes.",
-    images: [
-      "/images/products/eyeliner.jpg"
-    ],
-    price: 1200,
-    lablledPrice: 1500,
-    category: "Makeup"
-  },
-
-  {
-    productID: "CBC006",
-    name: "Long Lasting Foundation",
-    altNames: ["Liquid Foundation", "Face Foundation", "Makeup Foundation"],
-    description: "A lightweight foundation that provides buildable coverage and a smooth natural-looking finish.",
-    images: [
-      "/images/products/foundation.jpg"
-    ],
-    price: 3500,
-    lablledPrice: 4200,
-    category: "Makeup"
-  },
-
-  {
-    productID: "CBC007",
-    name: "Coconut Hair Oil",
-    altNames: ["Hair Oil", "Coconut Oil", "Hair Treatment"],
-    description: "A nourishing coconut-based hair oil designed to help keep hair soft and manageable.",
-    images: [
-      "/images/products/coconut-hair-oil.jpg"
-    ],
-    price: 1600,
-    lablledPrice: 2000,
-    category: "Hair Care"
-  },
-
-  {
-    productID: "CBC008",
-    name: "Keratin Hair Shampoo",
-    altNames: ["Keratin Shampoo", "Hair Shampoo", "Shampoo"],
-    description: "A gentle shampoo formulated to cleanse the hair while helping maintain a smooth and healthy appearance.",
-    images: [
-      "/images/products/keratin-shampoo.jpg"
-    ],
-    price: 2200,
-    lablledPrice: 2600,
-    category: "Hair Care"
-  },
-
-  {
-    productID: "CBC009",
-    name: "Rose Body Lotion",
-    altNames: ["Body Lotion", "Rose Lotion", "Moisturizing Lotion"],
-    description: "A lightweight body lotion that helps moisturize the skin and leaves a pleasant rose fragrance.",
-    images: [
-      "/images/products/rose-body-lotion.jpg"
-    ],
-    price: 1900,
-    lablledPrice: 2300,
-    category: "Body Care"
-  },
-
-  {
-    productID: "CBC010",
-    name: "Luxury Rose Perfume",
-    altNames: ["Rose Perfume", "Women's Perfume", "Fragrance"],
-    description: "A floral fragrance with a soft and elegant rose-inspired scent suitable for everyday wear.",
-    images: [
-      "/images/products/rose-perfume.jpg"
-    ],
-    price: 4500,
-    lablledPrice: 5200,
-    category: "Fragrance"
-  }
-];
 
 export default function AdminProductPage(){
 
-    const [products , setProducts] = useState(sampleData)
+    const [products , setProducts] = useState([])
 
+    useEffect(()=>{
+          axios.get(import.meta.env.VITE_API_URL + "/api/products").then(
+        (response)=>{
+            console.log(response.data)
+            setProducts(response.data)
+        }
+    ) 
+    },[])
     
-    // axios.get(import.meta.env.VITE_API_URL + "/api/products").then(
-    //     (response)=>{
-    //         console.log(response.data)
-    //         //setProducts(response.data)
-    //     }
-    // ) 
+
     console.log(products);
-    return(
-        <div className="w-full h-full p-[10px] ">
+return (
+    <div className="w-full h-full p-4 md:p-6 bg-primary/20">
+      <Link to="/admin/add-product" className="fixed right-[50px] bottom-[50px] text-5xl hover:text-primary"> 
+            <SlPlus />  
+      </Link>
 
-            <table className="border w-full text-center">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Product Price</th>
-                        <th>Labelled Price</th>
-                        <th>Category</th>  
-                    </tr>
-                </thead>
-                <tbody>
-                    {/* <tr>
-                        <td>
-                           < img src="logo.png" className= "w-16 h-16 object-cover" />
-                        </td> 
-                        <td>PRD001</td>
-                        <td>Classic White Shirt</td>
-                        <td>1750</td>
-                        <td>2150</td>
-                        <td>Men's clothing</td>
-                    </tr>
+        {/* Page Header */}
+        <div className="mb-6 flex flex-col flex-row items-center justify-between gap-3">
+            <div>
+                <h1 className="text-2xl md:text-3xl font-semibold text-secondary tracking-tight">
+                    Products
+                </h1>
 
-                    <tr>
-                        <td>
-                           < img src="logo.png" className= "w-16 h-16 object-cover" />
-                        </td> 
-                        <td> PRD001 </td>
-                        <td> Classic White Shirt </td>
-                        <td> 1750 </td>
-                        <td> 2150 </td>
-                        <td> Men's clothing </td>
-                    </tr> */}
-                {
-                    products.map(
-                    (item)=>{
-                        console.log(item);
-                        return (
-                        <tr key={item.productID}>
-                        <td>
-                           < img src={item.images[0]} className= "w-16 h-16 object-cover" />
-                        </td> 
-                        <td> {item.productID} </td>
-                        <td> {item.name} </td>
-                        <td> {item.price} </td>
-                        <td> {item.lablledPrice} </td>
-                        <td> {item.category}  </td>
-                    </tr>          
-                    )}
-                    )
+                <p className="text-sm text-secondary/60 mt-1">
+                    Manage your cosmetic products and inventory
+                </p>
+            </div>
 
-                }
-                </tbody>
-
-            </table>
- 
+            <div className="px-4 py-2 rounded-full bg-white border border-secondary/10 shadow-sm">
+                <span className="text-sm text-secondary/60">
+                    Total Products{" "}
+                </span>
+                <span className="font-semibold text-accent">
+                    {products.length}
+                </span>
+            </div>
         </div>
-    )
+
+
+        {/* Table Card */}
+        <div className="w-full overflow-hidden rounded-2xl bg-white border border-secondary/10 shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+
+            <div className="overflow-x-auto">
+
+                <table className="w-full text-left border-collapse">
+
+                    {/* Table Header */}
+                    <thead>
+                        <tr className="bg-secondary text-white">
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
+                                Image
+                            </th>
+
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
+                                Product ID
+                            </th>
+
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
+                                Product Name
+                            </th>
+
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
+                                Product Price
+                            </th>
+
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
+                                Labelled Price
+                            </th>
+
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
+                                Category
+                            </th>
+
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider text-center">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+
+                    {/* Table Body */}
+                    <tbody className="divide-y divide-secondary/10">
+
+                        {
+                            products.map((item, index) => {
+
+                                console.log(item);
+
+                                return (
+                                    <tr
+                                        key={item.productID}
+                                        className="group transition-all duration-200 hover:bg-primary/20"
+                                    >
+
+                                        {/* Image */}
+                                        <td className="px-5 py-4">
+
+                                            <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-primary/30 border border-secondary/10 shadow-sm">
+
+                                                <img
+                                                    src={item.images[0]}
+                                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                                />
+
+                                            </div>
+
+                                        </td>
+
+
+                                        {/* Product ID */}
+                                        <td className="px-5 py-4">
+
+                                            <span className="inline-flex px-3 py-1 rounded-full bg-secondary/5 text-xs font-medium text-secondary/70">
+                                                {item.productID}
+                                            </span>
+
+                                        </td>
+
+
+                                        {/* Product Name */}
+                                        <td className="px-5 py-4">
+
+                                            <div className="font-medium text-secondary group-hover:text-accent transition-colors">
+                                                {item.name}
+                                            </div>
+
+                                        </td>
+
+
+                                        {/* Product Price */}
+                                        <td className="px-5 py-4">
+
+                                            <span className="font-semibold text-accent">
+                                                Rs. {item.price}
+                                            </span>
+
+                                        </td>
+
+
+                                        {/* Labelled Price */}
+                                        <td className="px-5 py-4">
+
+                                            <span className="text-secondary/60 line-through">
+                                                Rs. {item.lablledPrice}
+                                            </span>
+
+                                        </td>
+
+
+                                        {/* Category */}
+                                        <td className="px-5 py-4">
+
+                                            <span className="inline-flex px-3 py-1 rounded-full bg-primary text-secondary text-xs font-medium">
+                                                {item.category}
+                                            </span>
+
+                                        </td>
+
+
+                                        {/* Actions */}
+                                        <td className="px-5 py-4">
+
+                                            <div className="flex justify-center items-center gap-2">
+
+                                                {/* Edit */}
+                                                <button
+                                                    className="w-9 h-9 flex items-center justify-center rounded-lg
+                                                    bg-primary/40 text-secondary
+                                                    hover:bg-accent hover:text-white
+                                                    transition-all duration-200
+                                                    hover:scale-105
+                                                    shadow-sm"
+                                                >
+                                                    <FaRegEdit size={16} />
+                                                </button>
+
+
+                                                {/* Delete */}
+                                                <button
+                                                    className="w-9 h-9 flex items-center justify-center rounded-lg
+                                                    bg-red-50 text-accent
+                                                    hover:bg-accent hover:text-white
+                                                    transition-all duration-200
+                                                    hover:scale-105
+                                                    shadow-sm"
+                                                >
+                                                    <IoTrashOutline size={17} />
+                                                </button>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                )
+                            })
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+)
 
 }

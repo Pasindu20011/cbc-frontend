@@ -3,7 +3,8 @@ import { HiOutlineChartSquareBar } from "react-icons/hi";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { PiUsersBold } from "react-icons/pi";
 import { BsBox2Heart } from "react-icons/bs";
-import AdminProductPage from './admin/adminProductPage';
+import AdminProductPage from './admin/adminProductPage.jsx';
+import AddProductPage from './admin/adminAddNewProduct.jsx';
 export default function AdminPage(){
 
     return(
@@ -57,6 +58,7 @@ export default function AdminPage(){
                         <Route path ="/products"element={<AdminProductPage/>} />
                         <Route path ="/orders"element={<h1> Orders </h1>} />   
                         <Route path ="/users"element={<h1> Users </h1>} />  
+                        <Route path="/add-product" element={<AddProductPage/>}/>
                     </Routes>
                     </div>
                 </div> 
