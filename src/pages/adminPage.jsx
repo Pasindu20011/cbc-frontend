@@ -5,6 +5,7 @@ import { PiUsersBold } from "react-icons/pi";
 import { BsBox2Heart } from "react-icons/bs";
 import AdminProductPage from './admin/adminProductPage.jsx';
 import AddProductPage from './admin/adminAddNewProduct.jsx';
+import UpdateProductPage from './admin/adminUpdateProduct.jsx';
 export default function AdminPage(){
 
     return(
@@ -50,6 +51,8 @@ export default function AdminPage(){
                         </div>
                     </Link>
 
+                    
+
                 </div> 
                 <div className="w-[calc(100%-300px)] h-full flex border-[4px] border-accent rounded-[20px] overflow-hidden ">
                     <div className = "bg-accent h-full max-h-full max-w-full w-full overflow overflow-y-scroll ">
@@ -59,6 +62,7 @@ export default function AdminPage(){
                         <Route path ="/orders"element={<h1> Orders </h1>} />   
                         <Route path ="/users"element={<h1> Users </h1>} />  
                         <Route path="/add-product" element={<AddProductPage/>}/>
+                        <Route path="/update-product" element={<UpdateProductPage/>}/>
                     </Routes>
                     </div>
                 </div> 

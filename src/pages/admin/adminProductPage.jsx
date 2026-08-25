@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { IoTrashOutline } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { SlPlus } from "react-icons/sl";
@@ -13,6 +13,7 @@ import { SlPlus } from "react-icons/sl";
 export default function AdminProductPage(){
 
     const [products , setProducts] = useState([])
+    const navigate = useNavigate()
 
     useEffect(()=>{
           axios.get(import.meta.env.VITE_API_URL + "/api/products").then(
@@ -82,6 +83,10 @@ return (
 
                             <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
                                 Labelled Price
+                            </th>
+
+                            <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
+                                Stock
                             </th>
 
                             <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider">
@@ -163,6 +168,14 @@ return (
 
                                         </td>
 
+                                        <td className="px-5 py-4">
+
+                                            <span className="text-secondary/60 ">
+                                                {item.stock}
+                                            </span>
+
+                                        </td>
+
 
                                         {/* Category */}
                                         <td className="px-5 py-4">
@@ -187,6 +200,11 @@ return (
                                                     transition-all duration-200
                                                     hover:scale-105
                                                     shadow-sm"
+                                                    onClick={()=>{
+                                                        navigate("/admin/update-product",{
+                                                            state : item
+                                                        })
+                                                    }}
                                                 >
                                                     <FaRegEdit size={16} />
                                                 </button>

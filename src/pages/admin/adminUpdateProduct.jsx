@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import mediaUpload from "../../../utils/mediaUpload"
 import toast from "react-hot-toast"
 import { TbLabelFilled } from "react-icons/tb"
@@ -7,20 +7,24 @@ import axios from "axios"
 
 
 
-export default function AddProductPage(){
-  const [productId,setProductID] = useState("") 
-  const [name,setName] = useState("")
-  const [altNames,setAltNames] = useState("")
-  const [description,setDescription] = useState("")
+export default function UpdateProductPage(){
+    const location = useLocation()
+ 
+
+  const [productId,setProductID] = useState(location.state.productID) 
+  const [name,setName] = useState(location.state.name)
+  const [altNames,setAltNames] = useState(location.state.altNames.join(","))
+  const [description,setDescription] = useState(location.state.description)
   const [images, setImages] = useState([])
-  const [price , setPrice] = useState("")
-  const [lablledPrice , setLablledPrice ] = useState("")
-  const [category , setCategory ] = useState("cream")
-  const [stock , setStock] = useState(0)
+  const [price , setPrice] = useState(location.state.price)
+  const [lablledPrice , setLablledPrice ] = useState(location.state.lablledPrice)
+  const [category , setCategory ] = useState(location.state.category)
+  const [stock , setStock] = useState(location.state.stock)
+
 
   const navigate = useNavigate()
 
-  async function addProduct(){
+  async function updateProduct(){
     const token = localStorage.getItem("token");
       if (token == null){
         navigate("/login");
@@ -30,10 +34,12 @@ export default function AddProductPage(){
       for (let i=0 ; i<images.length; i++){
 
         promises[i] = mediaUpload(images[i])
-
       }
       try{
-       const urls = await Promise.all(promises)
+       let urls = await Promise.all(promises)
+       if(urls.length==0){
+            urls = location.state.images
+       }
        const alternativeNames = altNames.split(",")
           const product = {
             productID : productId,
@@ -47,21 +53,19 @@ export default function AddProductPage(){
             stock : stock 
           }
 
-          await axios.post(import.meta.env.VITE_API_URL+"/api/products",product,{
+          await axios.put(import.meta.env.VITE_API_URL+"/api/products/"+productId,product,{
             headers:{
               Authorization:"Bearer " + token
             }
           })
-          toast.success("Product Added Successfully")
+          toast.success("Product Updated Successfully")
           
           navigate("/admin/products")
 
-      }catch (error) {
-  // Logs the exact error message sent from your backend (e.g., "Access Denied: Admin role required")
-  const message = error.response?.data?.message || "An Error Occurred";
-  toast.error(message);
-  console.error("Upload error details:", error.response?.data);
-}
+      }catch (error
+      ) {
+          toast.error("An error Occured");
+      }
        
     }
 
@@ -73,11 +77,11 @@ export default function AddProductPage(){
         <div className="bg-secondary px-8 py-6 border-b-4 border-primary">
 
           <h1 className="text-2xl font-semibold text-white tracking-wide">
-            Add New Product
+            Update Product
           </h1>
 
           <p className="text-white/50 text-sm mt-1">
-            Add a new cosmetic product to your CBC collection
+           Update cosmetic product in your CBC collection
           </p>
 
         </div>
@@ -94,6 +98,7 @@ export default function AddProductPage(){
               </label>
 
               <input
+              disabled
                 value={productId}
                 onChange={(e)=>{setProductID(e.target.value)}}
                 placeholder="e.g. CBC001"
@@ -308,8 +313,8 @@ export default function AddProductPage(){
                Cancel
               </button>
 
-              <button onClick={addProduct} className="flex px-3 py-1 h-[40px] w-[100px] rounded-full bg-primary justify-center items-center text-secondary ring-1 ring-accent/30 hover:border-red-500 hover:border-[2px]">
-               Submit
+              <button onClick={updateProduct} className="flex px-3 py-1 h-[40px] w-[100px] rounded-full bg-primary justify-center items-center text-secondary ring-1 ring-accent/30 hover:border-red-500 hover:border-[2px]">
+               Update
               </button>
             </div>
 
