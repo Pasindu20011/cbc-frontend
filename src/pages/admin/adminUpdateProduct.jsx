@@ -317,7 +317,7 @@ export default function UpdateProductPage(){
                Update
               </button>
             </div>
-
+ 
           </div>
           
 
